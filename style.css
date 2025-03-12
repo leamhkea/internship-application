@@ -4,8 +4,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: rgba(42, 107, 191, 1);
   background-color: rgba(241, 240, 234, 1);
+}
+
+body {
+  color: rgba(42, 107, 191, 1);
 }
 
 /* Bestemmer margin i bunden */
@@ -13,9 +16,34 @@
   margin-bottom: 4rem;
 }
 
+.portræt {
+  display: grid;
+  grid: "stack";
+  justify-items: center;
+  text-align: center;
+
+  p,
+  strong {
+    background-color: transparent;
+  }
+
+  > * {
+    grid-area: stack;
+    &:not(img) {
+      /* Sørger for, at tekst ikke gå helt ud til billedekant */
+      z-index: 1;
+    }
+  }
+  p:first-of-type {
+    align-self: start;
+  }
+}
+
 /* Gør img responsiv */
 img {
   width: 100%;
+  align-self: stretch;
+  object-fit: cover;
 }
 
 /*                           DOWNLOADEDE FONTE                     */
@@ -56,11 +84,12 @@ li:last-child {
 /*                          BESTEMMER MEDIAQUERIES DESKTOP                      */
 
 @media (min-width: 1200px) {
-  /* Bestemmer flex for begge rows */
-  .indhold_row {
+  /* Bestemmer begge rows */
+  .indhold_section_samlet {
     display: grid;
     grid-template-columns: 33% 33% 33%;
     margin: 0 8%;
+    margin-bottom: 4rem;
   }
 
   /* Bestemmer outlines */
@@ -109,46 +138,54 @@ li:last-child {
 /*                          BESTEMMER MEDIAQUERIES TABLET                     */
 
 @media (min-width: 800px) and (max-width: 1199px) {
-  /* Bestemmer outlines for img */
-  img {
+  /* Bestemmer flex for begge rows */
+  .indhold_section_samlet {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin: 0 8%;
+    margin-bottom: 4rem;
+  }
+
+  /* Bestemmer outlines */
+  img,
+  .indhold_kategori,
+  .indhold_kategori_overskrift {
     outline-style: solid;
     outline-width: 2px;
   }
+  .indhold_kategori_numre {
+    outline-style: none;
+  }
 
-  /* Bestemmer margin for hele section */
-  .indhold_section_samlet {
-    margin: 0 10rem;
+  /* Bestemmer størrelse på numre i headings */
+  .indhold_kategori_overskrift h2 {
+    display: flex;
+    align-items: center;
+  }
+  .indhold_kategori_overskrift {
+    display: grid;
+    grid-template-columns: 80% 20%;
   }
 
   /* Bestemmer headings og tekst */
   h1 {
-    font-size: 4rem;
+    font-size: 7rem;
+    margin: 2rem;
   }
-  h1,
   h2 {
-    margin-top: 3rem;
+    padding: 3%;
+    font-size: 2rem;
   }
   p,
   li,
   a {
-    margin: 1rem 0;
-    margin-bottom: 1.5rem;
+    padding: 3%;
   }
   li {
     margin-left: 3rem;
   }
-
-  /* Fjerner SVG numre fra kategori_overskrift */
-  .indhold_kategori_numre {
-    display: none;
-  }
-
-  /* Bestemmer billede størrelse og midterplacering */
-  .portræt {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
+  #indhold_kategori_projekt_link {
+    margin-bottom: 2rem;
   }
 }
 
@@ -163,7 +200,7 @@ li:last-child {
 
   /* Bestemmer margin for hele section */
   .indhold_section_samlet {
-    margin: 0 3rem;
+    margin: 0 1.5rem;
   }
 
   /* Bestemmer headings og tekst */
@@ -195,5 +232,10 @@ li:last-child {
     margin-left: auto;
     margin-right: auto;
     display: block;
+  }
+
+  /* Sørger for at have afstand til bunden fra den sidste sektion/p */
+  section:last-child {
+    margin-bottom: 5rem;
   }
 }
